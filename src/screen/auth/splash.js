@@ -2,23 +2,14 @@ import React, {useEffect} from 'react';
 import {Image, StyleSheet, ActivityIndicator} from 'react-native';
 import AContainer from '../../components/atoms/a-container';
 import AContent from '../../components/atoms/a-content';
-import db_query from '../../db/db_query';
-import localStore from '../../db/local-store';
-import DB from '../../db/SQLite';
 
 export default function Splash(props) {
   useEffect(() => {
     valideteSession();
   }, []);
   const valideteSession = async () => {
-    var user = await localStore.get('authUser');
-    DB.createTable('users', db_query.tbl_user);
     setTimeout(() => {
-      // if (user != null) {
-        props.navigation.replace('TabNav');
-      // } else {
-      //   props.navigation.replace('Signin');
-      // }
+      props.navigation.replace('TabNav');
     }, 1500);
   };
   return (

@@ -1,59 +1,91 @@
 import React, {useState} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {useEffect} from 'react/cjs/react.production.min';
+import Aicon from './a-icon';
 import AText from './a-text';
 
+const {width, height} = Dimensions.get('window');
 export default function Atabs(props) {
-  const {data, pd, onChange, childStyle} = props;
-  const [Tab, setTab] = useState(data);
-  const [selectTab, setselectTab] = useState(0);
-  const color = (index, border) => {
-    if (border) return selectTab == index ? '#278F02' : 'rgba(0,0,0,0.02)';
-    return selectTab == index ? '#278F02' : '#000';
-  };
+  const {onChange} = props;
+  const [tabSelect, settabSelect] = useState(0);
+  const [tabs, settabs] = useState([
+    {
+      name: 'Semua',
+      icon: 'menu',
+      iconType: 'MaterialCommunityIcons',
+    },
+    {
+      name: 'Idea',
+      icon: 'lightbulb-on-outline',
+      iconType: 'MaterialCommunityIcons',
+    },
+    {
+      name: 'Artikel',
+      icon: 'text-box-outline',
+      iconType: 'MaterialCommunityIcons',
+    },
+    {
+      name: 'Poling',
+      icon: 'poll',
+      iconType: 'MaterialCommunityIcons',
+    },
+    {
+      name: 'Petisi',
+      icon: 'account-group-outline',
+      iconType: 'MaterialCommunityIcons',
+    },
+  ]);
+
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
-        {Tab.map((item, index) => {
-          return (
+      {tabs.map((item, index) => {
+        return (
+          <View key={index} style={styles.item}>
             <TouchableOpacity
+              activeOpacity={0.7}
               onPress={() => {
                 onChange(index);
-                setselectTab(index);
+                settabSelect(index);
               }}
-              activeOpacity={0.7}
-              style={[styles.item, {borderColor: color(index, 'border')}]}
-              key={index}
+              style={[
+                styles.press_item,
+                {backgroundColor: tabSelect == index ? '#05B1A1' : '#FFFFFF'},
+              ]}
             >
-              <AText style={{color: color(index), fontWeight: '600'}}>
-                {item}
-              </AText>
+              <Aicon
+                name={item.icon}
+                type={item.iconType}
+                color={tabSelect == index ? '#FFFFFF' : '#05B1A1'}
+                size={20}
+              />
             </TouchableOpacity>
-          );
-        })}
-      </View>
-      <View
-        style={[
-          childStyle,
-          {flex: 1, paddingHorizontal: pd ? 20 : 0, paddingTop: pd ? 6 : 0},
-        ]}
-      >
-        {props.children}
-      </View>
+            <AText style={{color: '#05B1A1'}}>{item.name}</AText>
+          </View>
+        );
+      })}
     </View>
   );
 }
 const styles = StyleSheet.create({
-  container: {flex: 1},
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 20,
+  },
   content: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   item: {
-    flex: 1,
-    padding: 10,
     alignItems: 'center',
-    shadowColor: 'black',
-    shadowOpacity: 20,
-    borderBottomWidth: 3,
+    justifyContent: 'center',
+    flex: 1,
+    width: width / 5,
+  },
+  press_item: {
+    padding: 20,
+    borderWidth: 0.4,
+    borderColor: '#9B9B9B',
+    borderRadius: 7,
   },
 });

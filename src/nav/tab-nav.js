@@ -1,4 +1,3 @@
-import {View, Text, Keyboard} from 'react-native';
 import React, {useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {tabNav} from './nav-data';
